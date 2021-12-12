@@ -1,6 +1,23 @@
 import React from "react";
+import Button from "@mui/material/Button";
 
 class Field extends React.Component {
+  state = { seconds: 0 };
+
+  componentDidMount() {
+    this._timer = this.startTimer();
+  }
+
+   componentWillUnmount() {
+     clearInterval(this._timer);
+   }
+
+  startTimer = () => {
+    return setInterval(() => {
+      this.setState({ seconds: this.state.seconds + 1 });
+    }, 1000);
+  };
+
   activateField = (event) => {
     if (event.target.className === "cell") {
       console.log(
@@ -33,11 +50,24 @@ class Field extends React.Component {
     let cells = [];
     let rows = [];
 
+    rows.push(<div key={"seconds"}>Time - {this.state.seconds}</div>);
+
+    rows.push(
+      <div key={"configArea"} className="configArea">
+        {
+          <Button key={"reset"} variant="outlined" onClick={props.resetGame}>
+            Reset
+          </Button>
+        }
+      </div>
+    );
+
     for (let i = 0; i < props.rows; i++) {
       cells = [];
       for (let j = 0; j < props.columns; j++) {
         cells.push(
           <div
+            key={j}
             className="cell"
             data-row={i}
             data-column={j}
@@ -46,10 +76,14 @@ class Field extends React.Component {
           ></div>
         );
       }
-      rows.push(<div className="fieldRow">{cells}</div>);
+      rows.push(
+        <div key={i} className="fieldRow">
+          {cells}
+        </div>
+      );
     }
 
-    console.log(props);
+    //  console.log(props);
 
     return (
       <div>
