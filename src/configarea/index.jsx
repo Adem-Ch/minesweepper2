@@ -1,5 +1,5 @@
 import React from "react";
-import Button from '@mui/material/Button';
+import { Button } from '@material-ui/core';
 
 const levels = [
   { caption: "Guest", column: 5, row: 5, complexity: 0.1 },
