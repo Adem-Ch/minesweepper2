@@ -3,19 +3,42 @@ import Button from "@mui/material/Button";
 
 class Field extends React.Component {
   state = { seconds: 0 };
-  isInitialized = 0;
+  isInitialized = null;
   fieldsValue = [[]];
 
   componentDidMount() {
     this.timer = this.startTimer();
-    //  this.fieldsValue.push([1, 2, 3,]);
+    this.fieldsValue.push([1, 2, 3]);
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
   }
 
-  initializeFields = () => {};
+  initializeFields = (dataset) => {
+    this.isInitialized = 1;
+    console.log("Click on r-", dataset.row, ", c-", dataset.column);
+
+    for (let i = 0; i < this.props.rows; i++) {
+      let cells = [];
+      for (let j = 0; j < this.props.columns; j++) {
+        cells.push();
+      }
+    
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+  };
 
   startTimer = () => {
     return setInterval(() => {
@@ -24,13 +47,11 @@ class Field extends React.Component {
   };
 
   activateField = (event) => {
+    this.isInitialized
+      ? console.log("Init")
+      : this.initializeFields(event.target.dataset);
+
     if (event.target.className === "cell") {
-      console.log(
-        "Click on r-",
-        event.target.dataset.row,
-        ", c-",
-        event.target.dataset.column
-      );
     } else {
       console.log("checked");
     }
