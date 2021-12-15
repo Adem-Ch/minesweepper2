@@ -3,14 +3,19 @@ import Button from "@mui/material/Button";
 
 class Field extends React.Component {
   state = { seconds: 0 };
+  isInitialized = 0;
+  fieldsValue = [[]];
 
   componentDidMount() {
-    this._timer = this.startTimer();
+    this.timer = this.startTimer();
+    //  this.fieldsValue.push([1, 2, 3,]);
   }
 
-   componentWillUnmount() {
-     clearInterval(this._timer);
-   }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  initializeFields = () => {};
 
   startTimer = () => {
     return setInterval(() => {
@@ -53,9 +58,9 @@ class Field extends React.Component {
     rows.push(<div key={"seconds"}>Time - {this.state.seconds}</div>);
 
     rows.push(
-      <div key={"configArea"} className="configArea">
+      <div key={"configArea"} className={"configArea"}>
         {
-          <Button key={"reset"} variant="outlined" onClick={props.resetGame}>
+          <Button key={"reset"} variant={"outlined"} onClick={props.resetGame}>
             Reset
           </Button>
         }
@@ -87,8 +92,6 @@ class Field extends React.Component {
 
     return (
       <div>
-        <p>Rows {props.rows}</p>
-        <p>Columns {props.columns}</p>
         <div className="fields">{rows}</div>
       </div>
     );
