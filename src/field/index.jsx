@@ -44,35 +44,33 @@ class Field extends React.Component {
   };
 
 checkField = (target) => {
-  const { props } = this;
+  //const { props } = this;
   target.className =  this.fieldsValue[target.dataset.row][target.dataset.column]===9 ? "cell splashed": "cell clear";
 
 
 }
 
   activateField = (event) => {
-    this.isInitialized
-      ? this.checkField(event.target)
-      : this.initializeFields(event.target.dataset);
-
+    
     if (event.target.className === "cell") {
+      this.isInitialized
+     ? this.checkField(event.target)
+      : this.initializeFields(event.target.dataset); 
+
     } else {
       console.log("checked");
     }
   };
+
   markField = (event) => {
     event.preventDefault();
+
     if (event.target.className === "cell") {
-      console.log(
-        "Marked r-",
-        event.target.dataset.row,
-        ", c-",
-        event.target.dataset.column
-      );
+      event.target.className = "cell marked";
     } else {
-      console.log("checked");
-    }
-    event.target.className = "cell marked";
+    if (event.target.className === "cell marked") {
+      event.target.className = "cell";
+    } }
   };
 
   render() {
