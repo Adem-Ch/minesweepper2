@@ -4,29 +4,33 @@ import Button from "@mui/material/Button";
 class Field extends React.Component {
   state = { seconds: 0 };
   isInitialized = null;
+  isGameOver = null;
   fieldsValue = [[]];
 
   componentDidMount() {
     this._timer = this.startTimer();
- //   this.fieldsValue.push([1, 2, 3]);
+    //   this.fieldsValue.push([1, 2, 3]);
   }
 
   componentWillUnmount() {
     clearInterval(this._timer);
   }
 
-  
   startTimer = () => {
     return setInterval(() => {
       this.setState({ seconds: this.state.seconds + 1 });
     }, 1000);
   };
 
-
-  initializeFields = (dataset) => {
+  initializeFields = (target) => {
     this.isInitialized = 1;
     const { props } = this;
-    console.log("Click on r-", dataset.row, ", c-", dataset.column);
+    console.log(
+      "Click on r-",
+      target.dataset.row,
+      ", c-",
+      target.dataset.column
+    );
 
     for (let i = 0; i < props.rows; i++) {
       let cells = [];
@@ -36,41 +40,53 @@ class Field extends React.Component {
       this.fieldsValue[i] = cells;
     }
 
-    for (let i = 0; i < props.rows*props.columns*props.complexity; i++) {
-      this.fieldsValue[Math.floor(Math.random() * props.rows)][Math.floor(Math.random() * props.columns)]=9;
+    for (let i = 0; i < props.rows * props.columns * props.complexity; i++) {
+      this.fieldsValue[Math.floor(Math.random() * props.rows)][
+        Math.floor(Math.random() * props.columns)
+      ] = 9;
     }
-
-    console.log(this.fieldsValue);
+    this.checkField(target);
+    //    console.log(this.fieldsValue);
   };
 
-checkField = (target) => {
-  //const { props } = this;
-  target.className =  this.fieldsValue[target.dataset.row][target.dataset.column]===9 ? "cell splashed": "cell clear";
+  checkField = (target) => {
+    //const { props } = this;
+    target.className =
+      this.fieldsValue[target.dataset.row][target.dataset.column] === 9
+        ? "cell splashed"
+        : "cell clear";
+    if (target.className === "cell splashed") {
+      clearInterval(this._timer);
+      this.isGameOver = 1;
+      this.showBomb();
+    }
+  };
 
-
-}
+  showBomb = () => {
+    // / как перебрать все поля ?
+    console.log("Game over((((");
+  };
 
   activateField = (event) => {
-    
-    if (event.target.className === "cell") {
+    if ((event.target.className === "cell") && (!this.isGameOver)) {
       this.isInitialized
-     ? this.checkField(event.target)
-      : this.initializeFields(event.target.dataset); 
-
+        ? this.checkField(event.target)
+        : this.initializeFields(event.target);
     } else {
-      console.log("checked");
+      //console.log("checked");
     }
   };
 
   markField = (event) => {
     event.preventDefault();
 
-    if (event.target.className === "cell") {
+    if ((event.target.className === "cell") && (!this.isGameOver))  {
       event.target.className = "cell marked";
     } else {
-    if (event.target.className === "cell marked") {
-      event.target.className = "cell";
-    } }
+      if (event.target.className === "cell marked") {
+        event.target.className = "cell";
+      }
+    }
   };
 
   render() {
@@ -120,15 +136,5 @@ checkField = (target) => {
     );
   }
 }
-
-// class Log extends React.Component {
-//   render() {
-//     return (
-//       <div>
-//         Click on r- {event.target.dataset.row}, c- {event.target.dataset.column}
-//       </div>
-//     );
-//   }
-// }
 
 export default Field;
