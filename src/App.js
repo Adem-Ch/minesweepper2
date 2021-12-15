@@ -4,12 +4,12 @@ import ConfigArea from "./configarea";
 import Field from "./field";
 
 function App() {
-  const [complexity, setComplexity] = useState(null);
+  const [level, setLevel] = useState(null);
 
   //------------------------
 
   function resetGame() {
-    setComplexity(null);
+    setLevel(null);
   }
 
   // console.log("Complexity - ", complexity);
@@ -17,10 +17,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      {complexity ? (
-        <Field rows={complexity.row} columns={complexity.column} resetGame={resetGame} />
+      {level ? (
+        <Field rows={level.row} columns={level.column} complexity={level.complexity}  resetGame={resetGame} />
       ) : (
-        <ConfigArea onComplexityChange={setComplexity} />
+        <ConfigArea onLevelChange={setLevel} />
       )}
     </div>
   );

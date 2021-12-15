@@ -18,7 +18,7 @@ class ConfigArea extends React.Component {
           return (
             <Button key={element.caption}
             variant="outlined"
-              onClick={() => props.onComplexityChange(element)}
+              onClick={() => props.onLevelChange(element)}
             >
               {element.caption}
             </Button>
