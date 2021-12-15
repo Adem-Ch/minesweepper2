@@ -7,48 +7,52 @@ class Field extends React.Component {
   fieldsValue = [[]];
 
   componentDidMount() {
-    this.timer = this.startTimer();
-    this.fieldsValue.push([1, 2, 3]);
+    this._timer = this.startTimer();
+ //   this.fieldsValue.push([1, 2, 3]);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    clearInterval(this._timer);
   }
 
-  initializeFields = (dataset) => {
-    this.isInitialized = 1;
-    console.log("Click on r-", dataset.row, ", c-", dataset.column);
-
-    for (let i = 0; i < this.props.rows; i++) {
-      let cells = [];
-      for (let j = 0; j < this.props.columns; j++) {
-        cells.push();
-      }
-    
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-  };
-
+  
   startTimer = () => {
     return setInterval(() => {
       this.setState({ seconds: this.state.seconds + 1 });
     }, 1000);
   };
 
+
+  initializeFields = (dataset) => {
+    this.isInitialized = 1;
+    const { props } = this;
+    console.log("Click on r-", dataset.row, ", c-", dataset.column);
+
+    for (let i = 0; i < props.rows; i++) {
+      let cells = [];
+      for (let j = 0; j < props.columns; j++) {
+        cells.push(0);
+      }
+      this.fieldsValue[i] = cells;
+    }
+
+    for (let i = 0; i < props.rows*props.columns*props.complexity; i++) {
+      this.fieldsValue[Math.floor(Math.random() * props.rows)][Math.floor(Math.random() * props.columns)]=9;
+    }
+
+    console.log(this.fieldsValue);
+  };
+
+checkField = (target) => {
+  const { props } = this;
+  target.className =  this.fieldsValue[target.dataset.row][target.dataset.column]===9 ? "cell splashed": "cell clear";
+
+
+}
+
   activateField = (event) => {
     this.isInitialized
-      ? console.log("Init")
+      ? this.checkField(event.target)
       : this.initializeFields(event.target.dataset);
 
     if (event.target.className === "cell") {

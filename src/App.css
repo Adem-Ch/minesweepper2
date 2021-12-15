@@ -66,6 +66,9 @@
   background-size: cover;
 }
 
+.clear {
+  border:solid white 5px;
+}
 .button {
   display:inline-block;
   cursor: pointer;
